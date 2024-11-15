@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سبين و ربح</title>
-    <script src="https://cdn.jsdelivr.net/npm/winwheel.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -66,10 +65,6 @@
             margin-top: 100px;
         }
 
-        .wheel-container {
-            margin-top: 20px;
-        }
-
         .comments {
             margin-top: 20px;
             font-size: 18px;
@@ -82,9 +77,39 @@
             color: green;
         }
 
-        .prize img {
-            width: 200px;
-            margin-top: 10px;
+        /* Wheel */
+        #wheel {
+            margin-top: 50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 10px solid #333;
+            position: relative;
+            background-image: conic-gradient(#ff0 0% 12.5%, #ff6600 12.5% 25%, #ff0 25% 37.5%, #ff6600 37.5% 50%, #ff0 50% 62.5%, #ff6600 62.5% 75%, #ff0 75% 87.5%, #ff6600 87.5% 100%);
+            margin: 0 auto;
+        }
+
+        #wheel .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #f00;
+        }
+
+        /* Spin Button */
+        #spinButton {
+            background-color: #333;
+            color: white;
+            padding: 10px 30px;
+            margin-top: 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
         }
 
         /* Side Bar */
@@ -115,6 +140,13 @@
             font-size: 16px;
         }
 
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
         /* Bottom Styling */
         #prizeImage img {
             width: 150px;
@@ -133,19 +165,22 @@
     </div>
 
     <!-- Moving Text -->
-    <div id="movingText">🎉 من خلال العجلة، يمكنك الفوز بجوائز رائعة! 🎉</div>
+    <div id="movingText">🎉 يمكنك الفوز بجوائز رائعة! 🎉</div>
 
     <!-- Content -->
     <div class="content">
         <h1>إدور و اربح!</h1>
 
-        <div class="wheel-container">
-            <canvas id="spinWheel" width="500" height="500"></canvas>
-            <br>
-            <button onclick="spinWheel()">إدور العجلة</button>
+        <!-- Spin Wheel -->
+        <div id="wheel">
+            <div class="pointer"></div>
         </div>
 
+        <!-- Spin Button -->
+        <button id="spinButton">إدور الآن!</button>
+
         <div id="comments" class="comments"></div>
+
         <div id="prize" class="prize"></div>
         <div id="prizeImage"></div>
     </div>
@@ -159,27 +194,6 @@
     </div>
 
     <script>
-        // Initialize the wheel with 8 prizes, including Iraqi Dinars and gifts with images
-        var wheel = new Winwheel({
-            'numSegments': 8,
-            'outerRadius': 200,
-            'segments': [
-                { 'fillStyle': 'red', 'text': '5000000 د.ع', 'image': 'https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png' },
-                { 'fillStyle': 'blue', 'text': '1000000 د.ع', 'image': 'https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png' },
-                { 'fillStyle': 'green', 'text': '750000 د.ع', 'image': 'https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png' },
-                { 'fillStyle': 'yellow', 'text': '500000 د.ع', 'image': 'https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png' },
-                { 'fillStyle': 'orange', 'text': 'سفرة مجانية الى تركيا', 'image': 'https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png' },
-                { 'fillStyle': 'purple', 'text': 'iPhone 16 Pro Max', 'image': 'https://directunlocks.com/devices/compressed/iphone-16-pro.png' },
-                { 'fillStyle': 'pink', 'text': 'Samsung S24 Ultra', 'image': 'https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png' },
-                { 'fillStyle': 'cyan', 'text': 'لا شيء', 'image': 'https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%8A%D8%A6-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png' }
-            ],
-            'animation': {
-                'type': 'spinToStop',
-                'duration': 5,
-                'spins': 8
-            }
-        });
-
         // Fake comments generator
         const comments = [
             'لقد فزت بهذه الجائزة! 😱',
@@ -197,29 +211,85 @@
             return comments[randomIndex];
         }
 
-        function spinWheel() {
-            wheel.startAnimation();
-            document.getElementById('comments').innerHTML = generateRandomComment();
-            setTimeout(() => {
-                const prize = wheel.getIndicatedSegment();
-                document.getElementById('prize').innerHTML = `لقد فزت بـ: ${prize.text} <br>أرسل هذه الجائزة إلى 10 أصدقاء لتحصل عليها!`;
-                document.getElementById('prizeImage').innerHTML = `<img src="${prize.image}" alt="${prize.text}">`;
-
-                // Simulate a random winner
-                addWinner(prize.text);
-            }, 5000); // Delay prize display after spin
-        }
-
         // Add random winner to the sidebar
-        function addWinner(prize) {
+        function addWinner() {
             const fakeNames = ["أحمد", "سارة", "محمد", "فاطمة", "مريم"];
+            const avatars = [
+                'https://randomuser.me/api/portraits/men/1.jpg',
+                'https://randomuser.me/api/portraits/women/1.jpg',
+                'https://randomuser.me/api/portraits/men/2.jpg',
+                'https://randomuser.me/api/portraits/women/2.jpg',
+                'https://randomuser.me/api/portraits/men/3.jpg'
+            ];
+
             const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+            const prize = generateRandomPrize(); // Generate a random prize
             const winnerText = `${randomName} فاز بـ: ${prize}`;
+
             const winnerList = document.getElementById('winnersList');
             const winnerItem = document.createElement('li');
-            winnerItem.textContent = winnerText;
+            winnerItem.innerHTML = `${winnerText} <img class="user-avatar" src="${randomAvatar}" alt="${randomName}">`;
             winnerList.appendChild(winnerItem);
         }
+
+        // Generate random prize text
+        function generateRandomPrize() {
+            const prizes = [
+                '5000000 د.ع',
+                '1000000 د.ع',
+                '750000 د.ع',
+                '500000 د.ع',
+                'سفرة مجانية الى تركيا',
+                'iPhone 16 Pro Max',
+                'Samsung S24 Ultra',
+                'لا شيء'
+            ];
+            const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+            return randomPrize;
+        }
+
+        // Generate fake comments every 5 seconds
+        setInterval(() => {
+            const commentSection = document.getElementById('comments');
+            commentSection.innerHTML = generateRandomComment();
+        }, 5000);
+
+        // Add fake winners every 10 seconds
+        setInterval(addWinner, 10000);
+
+        // Spin Wheel Logic
+        const wheel = document.getElementById('wheel');
+        const spinButton = document.getElementById('spinButton');
+        const prizeImage = document.getElementById('prizeImage');
+        const prizeText = document.getElementById('prize');
+
+        spinButton.addEventListener('click', () => {
+            const spinDeg = Math.floor(Math.random() * 360) + 3600; // Spin more than 10 times for effect
+            wheel.style.transition = "transform 4s ease-out";
+            wheel.style.transform = `rotate(${spinDeg}deg)`;
+
+            // Wait for the wheel to stop and show prize
+            setTimeout(() => {
+                const prize = generateRandomPrize();
+                prizeText.innerHTML = `تهانينا! فزت بـ: ${prize}`;
+                
+                // Show corresponding image for the prize
+                let prizeImg;
+                if (prize.includes("د.ع")) {
+                    prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="Prize Image">`;
+                } else if (prize === "سفرة مجانية الى تركيا") {
+                    prizeImg = `<img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Prize Image">`;
+                } else if (prize === "iPhone 16 Pro Max") {
+                    prizeImg = `<img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="Prize Image">`;
+                } else if (prize === "Samsung S24 Ultra") {
+                    prizeImg = `<img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Prize Image">`;
+                } else {
+                    prizeImg = `<img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="Prize Image">`;
+                }
+                prizeImage.innerHTML = prizeImg;
+            }, 4000); // After 4 seconds (when spin finishes)
+        });
     </script>
 </body>
 </html>
