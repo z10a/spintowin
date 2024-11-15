@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wef و ربح</title>
+    <title>سبين و ربح</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -91,9 +91,9 @@
 
         #wheel .pointer {
             position: absolute;
-            top: -15px;
+            top: -30px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) rotate(0deg);
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
@@ -153,6 +153,17 @@
             width: 150px;
             margin-top: 20px;
         }
+
+        /* Prize Text on Wheel */
+        .wheel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -175,6 +186,14 @@
         <!-- Spin Wheel -->
         <div id="wheel">
             <div class="pointer"></div>
+            <div class="wheel-text" style="top: 12%;">5000000 د.ع</div>
+            <div class="wheel-text" style="top: 25%;">1000000 د.ع</div>
+            <div class="wheel-text" style="top: 37%;">750000 د.ع</div>
+            <div class="wheel-text" style="top: 50%;">500000 د.ع</div>
+            <div class="wheel-text" style="top: 62%;">سفرة مجانية الى تركيا</div>
+            <div class="wheel-text" style="top: 75%;">iPhone 16 Pro Max</div>
+            <div class="wheel-text" style="top: 87%;">Samsung S24 Ultra</div>
+            <div class="wheel-text" style="top: 100%;">لا شيء</div>
         </div>
 
         <!-- Spin Button -->
@@ -204,38 +223,41 @@
             { text: 'شاهدوا، لقد فزت! 🏆', avatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
             { text: 'يا له من حظ! 🥳', avatar: 'https://randomuser.me/api/portraits/women/3.jpg' },
             { text: 'سبحان الله، فزت بالجائزة! 😅', avatar: 'https://randomuser.me/api/portraits/men/4.jpg' },
-            { text: 'من الآخر، هذا فوز عظيم! 👏', avatar: 'https://randomuser.me/api/portraits/women/4.jpg' }
+            { text: 'من الآخر، هذا فوز عظيم! 👏', avatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
+            // 40 more names with avatars
+            { text: 'عادل فاز بالجوائز! 😍', avatar: 'https://randomuser.me/api/portraits/men/5.jpg' },
+            { text: 'نور فازت بالجوائز! 😱', avatar: 'https://randomuser.me/api/portraits/women/5.jpg' },
+            { text: 'سامي فاز! 🏅', avatar: 'https://randomuser.me/api/portraits/men/6.jpg' },
+            { text: 'ليلى فازت بالجائزة الكبرى! 😇', avatar: 'https://randomuser.me/api/portraits/women/6.jpg' },
+            { text: 'عبدالله فاز! 🤩', avatar: 'https://randomuser.me/api/portraits/men/7.jpg' },
+            { text: 'ميساء فازت بالجائزة الكبرى! 🏆', avatar: 'https://randomuser.me/api/portraits/women/7.jpg' },
+            { text: 'ياسر فاز! 💥', avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+            { text: 'سارة فازت بالجائزة الكبرى! 🎉', avatar: 'https://randomuser.me/api/portraits/women/8.jpg' },
+            { text: 'محمد فاز! 😍', avatar: 'https://randomuser.me/api/portraits/men/9.jpg' },
+            { text: 'فاطمة فازت بالجائزة الكبيرة! 👏', avatar: 'https://randomuser.me/api/portraits/women/9.jpg' },
+            { text: 'حسن فاز! 💥', avatar: 'https://randomuser.me/api/portraits/men/10.jpg' },
+            { text: 'أسماء فازت! 🏅', avatar: 'https://randomuser.me/api/portraits/women/10.jpg' },
+            { text: 'أحمد فاز! 😇', avatar: 'https://randomuser.me/api/portraits/men/11.jpg' },
+            { text: 'رحاب فازت! 🥳', avatar: 'https://randomuser.me/api/portraits/women/11.jpg' },
+            // Add remaining 30
         ];
 
-        function generateRandomComment() {
-            const randomIndex = Math.floor(Math.random() * comments.length);
-            const comment = comments[randomIndex];
-            return `<img class="user-avatar" src="${comment.avatar}" alt="User Avatar"> ${comment.text}`;
-        }
+        // Disable Double Spin
+        let canSpin = true;
 
-        // Add random winner to the sidebar
+        // Generate random winner and add to the sidebar
         function addWinner() {
-            const fakeNames = ["أحمد", "سارة", "محمد", "فاطمة", "مريم"];
-            const avatars = [
-                'https://randomuser.me/api/portraits/men/1.jpg',
-                'https://randomuser.me/api/portraits/women/1.jpg',
-                'https://randomuser.me/api/portraits/men/2.jpg',
-                'https://randomuser.me/api/portraits/women/2.jpg',
-                'https://randomuser.me/api/portraits/men/3.jpg'
-            ];
-
-            const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
-            const prize = generateRandomPrize(); // Generate a random prize
-            const winnerText = `${randomName} فاز بـ: ${prize}`;
-
-            const winnerList = document.getElementById('winnersList');
-            const winnerItem = document.createElement('li');
-            winnerItem.innerHTML = `${winnerText} <img class="user-avatar" src="${randomAvatar}" alt="${randomName}">`;
-            winnerList.appendChild(winnerItem);
+            if (canSpin) {
+                const randomComment = comments[Math.floor(Math.random() * comments.length)];
+                const winnerText = `${randomComment.text} <img src="${randomComment.avatar}" class="user-avatar" alt="Avatar">`;
+                const winnerItem = document.createElement('li');
+                winnerItem.innerHTML = winnerText;
+                document.getElementById('winnersList').appendChild(winnerItem);
+                canSpin = false;
+            }
         }
 
-        // Generate random prize text
+        // Generate random prize
         function generateRandomPrize() {
             const prizes = [
                 '5000000 د.ع',
@@ -247,24 +269,17 @@
                 'Samsung S24 Ultra',
                 'لا شيء'
             ];
-            const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
-            return randomPrize;
+            return prizes[Math.floor(Math.random() * prizes.length)];
         }
 
-        // Generate fake comments every 5 seconds
-        setInterval(() => {
-            const commentSection = document.getElementById('comments');
-            commentSection.innerHTML = generateRandomComment();
-        }, 5000);
-
-        // Spin Wheel Logic
+        // Spin Button Logic
         const spinButton = document.getElementById('spinButton');
         const prizeDisplay = document.getElementById('prize');
         const prizeImage = document.getElementById('prizeImage');
         const wheel = document.getElementById('wheel');
 
         spinButton.addEventListener('click', function() {
-            // Prevent the pointer from spinning with the wheel
+            if (!canSpin) return; // Prevent spinning twice
             const deg = Math.floor(Math.random() * 360) + 3600; // random large number for spin
             wheel.style.transition = 'transform 4s ease-out';
             wheel.style.transform = `rotate(${deg}deg)`;
