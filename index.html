@@ -6,23 +6,157 @@
     <title>سبين و ربح</title>
     <script src="https://cdn.jsdelivr.net/npm/winwheel.js"></script>
     <style>
-        body { font-family: 'Arial', sans-serif; text-align: center; }
-        .wheel-container { margin-top: 20px; }
-        .comments { margin-top: 20px; font-size: 18px; color: #555; }
-        .prize { margin-top: 30px; font-size: 24px; color: green; }
-        img { width: 200px; margin-top: 10px; }
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        /* Top Menu */
+        #topMenu {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        #topMenu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+
+        #topMenu a:hover {
+            text-decoration: underline;
+        }
+
+        /* Moving Text */
+        #movingText {
+            background-color: #444;
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            position: fixed;
+            top: 60px;
+            width: 100%;
+            z-index: 999;
+            animation: scrollText 10s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Content */
+        .content {
+            margin-top: 100px;
+        }
+
+        .wheel-container {
+            margin-top: 20px;
+        }
+
+        .comments {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .prize {
+            margin-top: 30px;
+            font-size: 24px;
+            color: green;
+        }
+
+        .prize img {
+            width: 200px;
+            margin-top: 10px;
+        }
+
+        /* Side Bar */
+        #sidebar {
+            position: fixed;
+            top: 100px;
+            right: 0;
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #sidebar h3 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar ul li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        /* Bottom Styling */
+        #prizeImage img {
+            width: 150px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>إدور و اربح!</h1>
-    <div class="wheel-container">
-        <canvas id="spinWheel" width="500" height="500"></canvas>
-        <br>
-        <button onclick="spinWheel()">إدور العجلة</button>
+
+    <!-- Top Menu -->
+    <div id="topMenu">
+        <a href="#">الرئيسية</a>
+        <a href="#">الألعاب</a>
+        <a href="#">اتصل بنا</a>
+        <a href="#">الجوائز</a>
     </div>
-    <div id="comments" class="comments"></div>
-    <div id="prize" class="prize"></div>
-    <div id="prizeImage"></div>
+
+    <!-- Moving Text -->
+    <div id="movingText">🎉 من خلال العجلة، يمكنك الفوز بجوائز رائعة! 🎉</div>
+
+    <!-- Content -->
+    <div class="content">
+        <h1>إدور و اربح!</h1>
+
+        <div class="wheel-container">
+            <canvas id="spinWheel" width="500" height="500"></canvas>
+            <br>
+            <button onclick="spinWheel()">إدور العجلة</button>
+        </div>
+
+        <div id="comments" class="comments"></div>
+        <div id="prize" class="prize"></div>
+        <div id="prizeImage"></div>
+    </div>
+
+    <!-- Side Bar with Fake Winners -->
+    <div id="sidebar">
+        <h3>الفائزين الآن</h3>
+        <ul id="winnersList">
+            <!-- Fake Winners List -->
+        </ul>
+    </div>
 
     <script>
         // Initialize the wheel with 8 prizes, including Iraqi Dinars and gifts with images
@@ -70,7 +204,21 @@
                 const prize = wheel.getIndicatedSegment();
                 document.getElementById('prize').innerHTML = `لقد فزت بـ: ${prize.text} <br>أرسل هذه الجائزة إلى 10 أصدقاء لتحصل عليها!`;
                 document.getElementById('prizeImage').innerHTML = `<img src="${prize.image}" alt="${prize.text}">`;
+
+                // Simulate a random winner
+                addWinner(prize.text);
             }, 5000); // Delay prize display after spin
+        }
+
+        // Add random winner to the sidebar
+        function addWinner(prize) {
+            const fakeNames = ["أحمد", "سارة", "محمد", "فاطمة", "مريم"];
+            const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            const winnerText = `${randomName} فاز بـ: ${prize}`;
+            const winnerList = document.getElementById('winnersList');
+            const winnerItem = document.createElement('li');
+            winnerItem.textContent = winnerText;
+            winnerList.appendChild(winnerItem);
         }
     </script>
 </body>
