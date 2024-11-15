@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spin & Win</title>
+    <title>دورة و ربح</title>
     <style>
         * {
             box-sizing: border-box;
@@ -18,7 +18,7 @@
             justify-content: center;
             height: 100vh;
             overflow: hidden;
-            font-family: sans-serif;
+            direction: rtl; /* Right-to-left for Arabic */
         }
 
         .container {
@@ -45,10 +45,13 @@
             justify-content: center;
             font-size: 20px;
             font-weight: bold;
+            font-family: sans-serif;
             color: #fff;
             left: 135px;
+            flex-direction: column;
         }
 
+        /* Prize sections with images */
         .container .one { background-color: #3f51b5; left: 50%; }
         .container .two { background-color: #ff9800; transform: rotate(45deg); }
         .container .three { background-color: #e91e63; transform: rotate(90deg); }
@@ -85,160 +88,110 @@
             color: #a2a2a2;
             width: 80px;
             height: 80px;
+            font-family: sans-serif;
             border-radius: 50%;
             cursor: pointer;
             outline: none;
+            letter-spacing: 1px;
         }
 
-        .prize-display {
+        #comments {
             margin-top: 20px;
-            font-size: 24px;
-            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            font-family: sans-serif;
+            color: #fff;
         }
 
-        .sidebar {
-            position: fixed;
-            top: 20%;
-            right: 0;
-            width: 200px;
-            background-color: #2c3e50;
-            color: white;
+        #share {
+            display: block;
+            margin-top: 10px;
             padding: 10px;
-            display: none;
-            flex-direction: column;
-            align-items: flex-start;
+            background-color: #27ae60;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 5px;
         }
 
-        .sidebar div {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        .sidebar img {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+        .prize-image {
+            width: 80px;
+            height: auto;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="one">5000000 د.ع</div>
-        <div class="two">1000000 د.ع</div>
-        <div class="three">750000 د.ع</div>
-        <div class="four">500000 د.ع</div>
-        <div class="five">سفرة مجانية الى تركيا</div>
-        <div class="six">iPhone 16 Pro Max</div>
-        <div class="seven">Samsung S24 Ultra</div>
-        <div class="eight">لا شيء</div>
-    </div>
-
+    <button id="spin">دور</button>
     <span class="arrow"></span>
-    <button id="spin">Spin</button>
-
-    <div class="prize-display" id="prize-display">فزت: لا شيء</div>
-
-    <div class="sidebar" id="sidebar">
-        <h3>الذين فازوا الآن:</h3>
-        <div id="winners"></div>
+    <div class="container">
+        <div class="one">
+            <img class="prize-image" src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar">
+            <span>٥٠٠٠٠٠٠</span>
+        </div>
+        <div class="two">
+            <img class="prize-image" src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar">
+            <span>١٠٠٠٠٠٠</span>
+        </div>
+        <div class="three">
+            <img class="prize-image" src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar">
+            <span>٧٥٠٠٠٠</span>
+        </div>
+        <div class="four">
+            <img class="prize-image" src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar">
+            <span>٥٠٠٠٠٠</span>
+        </div>
+        <div class="five">
+            <img class="prize-image" src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey">
+            <span>سفرة مجانية الى تركيا</span>
+        </div>
+        <div class="six">
+            <img class="prize-image" src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max">
+            <span>آيفون 16 برو ماكس</span>
+        </div>
+        <div class="seven">
+            <img class="prize-image" src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra">
+            <span>سامسونج S24 الترا</span>
+        </div>
+        <div class="eight">
+            <img class="prize-image" src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D8%A6-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="No Prize">
+            <span>لا شيء</span>
+        </div>
     </div>
+
+    <div id="comments"></div>
+    <a href="javascript:void(0)" id="share" style="display:none;">شارك مع أصدقائك</a>
 
     <script>
         let container = document.querySelector(".container");
         let btn = document.getElementById("spin");
-        let prizeDisplay = document.getElementById("prize-display");
-        let sidebar = document.getElementById("sidebar");
-        let winnersList = document.getElementById("winners");
         let number = Math.ceil(Math.random() * 1000);
-        let canSpin = true;
+        let commentsDiv = document.getElementById("comments");
+        let shareButton = document.getElementById("share");
 
-        // Array of Arabic names with random icons
-        const names = [
-            { name: "أحمد", icon: "https://img.icons8.com/ios-filled/50/000000/user-male.png" },
-            { name: "علي", icon: "https://img.icons8.com/ios-filled/50/000000/user-male.png" },
-            { name: "فاطمة", icon: "https://img.icons8.com/ios-filled/50/000000/user-female.png" },
-            { name: "مريم", icon: "https://img.icons8.com/ios-filled/50/000000/user-female.png" },
-            // Add more names here
+        const fakeComments = [
+            "مبروك لك! فزت بالـ ٥٠٠٠٠٠٠ دينار!",
+            "أنا أيضاً فزت الآن! تفضلوا، العبوا أيضًا!",
+            "واو، حصلت على آيفون 16 برو ماكس! هذا مذهل!",
+            "أنا فزت أيضًا! لا تفوت الفرصة!"
         ];
 
-        function addWinner() {
-            const winner = names[Math.floor(Math.random() * names.length)];
-            const winnerElement = document.createElement("div");
-            winnerElement.innerHTML = `<img src="${winner.icon}" alt="User Icon"> ${winner.name} فاز بـ <strong>${generateRandomPrize()}</strong>`;
-            winnersList.prepend(winnerElement);
-            if (winnersList.children.length > 20) {
-                winnersList.removeChild(winnersList.lastChild);
-            }
+        btn.onclick = function () {
+            let prizeIndex = Math.floor(Math.random() * 8);
+            let prizeText = document.querySelector(`.container div:nth-child(${prizeIndex + 1}) span`).textContent;
+            let prizeImage = document.querySelector(`.container div:nth-child(${prizeIndex + 1}) img`).src;
+            container.style.transform = "rotate(" + number + "deg)";
+            number += Math.ceil(Math.random() * 1000);
+
+            // Show prize and random comment
+            commentsDiv.innerHTML = `<img src="${prizeImage}" class="prize-image" alt="Prize"> <br>مبروك! فزت بـ ${prizeText}`;
+            shareButton.style.display = 'inline-block';
+            shareButton.onclick = function() {
+                alert('أرسل الرابط إلى 10 أصدقاء لتحصل على جائزتك!');
+            };
         }
-
-        function generateRandomPrize() {
-            const prizes = [
-                "5000000 د.ع", "1000000 د.ع", "750000 د.ع", "500000 د.ع",
-                "سفرة مجانية الى تركيا", "iPhone 16 Pro Max", "Samsung S24 Ultra", "لا شيء"
-            ];
-            return prizes[Math.floor(Math.random() * prizes.length)];
-        }
-
-        function spinWheel() {
-            if (!canSpin) return;
-            canSpin = false;
-
-            // Generate a random number to determine the degree of rotation
-            const rotationDegree = Math.ceil(Math.random() * 1000);
-            container.style.transition = "transform 4s ease-out";
-            container.style.transform = `rotate(${rotationDegree}deg)`;
-
-            setTimeout(() => {
-                const prize = generateRandomPrize();
-                prizeDisplay.innerHTML = `فزت: ${prize}`;
-                
-                // Show the prize image
-                let prizeImg = '';
-                switch (prize) {
-                    case '5000000 د.ع':
-                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar">`;
-                        break;
-                    case '1000000 د.ع':
-                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar">`;
-                        break;
-                    case '750000 د.ع':
-                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar">`;
-                        break;
-                    case '500000 د.ع':
-                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar">`;
-                        break;
-                    case 'سفرة مجانية الى تركيا':
-                        prizeImg = `<img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey">`;
-                        break;
-                    case 'iPhone 16 Pro Max':
-                        prizeImg = `<img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max">`;
-                        break;
-                    case 'Samsung S24 Ultra':
-                        prizeImg = `<img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra">`;
-                        break;
-                    case 'لا شيء':
-                        prizeImg = `<img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="Nothing">`;
-                        break;
-                }
-                prizeDisplay.innerHTML += `<br>${prizeImg}`;
-
-                addWinner();
-
-                // Allow spinning again
-                canSpin = true;
-            }, 4000);
-        }
-
-        btn.onclick = spinWheel;
-
-        // Generate winners automatically every second
-        setInterval(addWinner, 1000);
-
-        // Show sidebar with winners on page load
-        setTimeout(() => {
-            sidebar.style.display = "block";
-        }, 1000);
     </script>
 </body>
 </html>
