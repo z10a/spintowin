@@ -3,233 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سبين و ربح</title>
+    <title>Spin & Win</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
             background-color: #f0f0f0;
+            direction: rtl;
+            text-align: center;
         }
-
-        /* Top Menu */
-        #topMenu {
-            background-color: #333;
-            color: white;
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        #topMenu a {
-            color: white;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 18px;
-        }
-
-        #topMenu a:hover {
-            text-decoration: underline;
-        }
-
-        /* Moving Text */
-        #movingText {
-            background-color: #444;
-            color: white;
-            font-size: 20px;
-            padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            position: fixed;
-            top: 52.1px;
-            width: 100%;
-            z-index: 999;
-            animation: scrollText 10s linear infinite;
-        }
-
-        @keyframes scrollText {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* Content */
-        .content {
-            margin-top: 100px;
-        }
-
-        .comments {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #555;
-        }
-
-        .prize {
-            margin-top: 30px;
-            font-size: 24px;
-            color: green;
-        }
-
-        /* Wheel */
-        #wheel {
-            margin-top: 50px;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            border: 10px solid #333;
+        #container {
             position: relative;
-            background-image: conic-gradient(#ff0 0% 12.5%, #ff6600 12.5% 25%, #ff0 25% 37.5%, #ff6600 37.5% 50%, #ff0 50% 62.5%, #ff6600 62.5% 75%, #ff0 75% 87.5%, #ff6600 87.5% 100%);
-            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+            margin: auto;
+            padding-top: 100px;
         }
-
-        #wheel .pointer {
+        #wheel {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background-color: #ffdb58;
+            position: relative;
+            margin: auto;
+            border: 5px solid #333;
+        }
+        #wheel .wheel-text {
             position: absolute;
-            top: -30px;
             left: 50%;
-            transform: translateX(-50%) rotate(0deg);
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 20px solid #f00;
-            z-index: 100;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
         }
-
-        /* Spin Button */
+        #pointer {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            z-index: 10;
+        }
         #spinButton {
-            background-color: #333;
-            color: white;
-            padding: 10px 30px;
             margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
             border: none;
             font-size: 18px;
             cursor: pointer;
         }
-
-        /* Sidebar (Disappears on mobile) */
+        #spinButton:disabled {
+            background-color: #ccc;
+        }
         #sidebar {
             position: fixed;
-            top: 100px;
             right: 0;
+            top: 100px;
             width: 200px;
-            background-color: #333;
-            color: white;
-            padding: 15px;
+            background-color: #fff;
+            border-left: 2px solid #ddd;
             height: 100%;
             overflow-y: auto;
+            padding: 10px;
         }
-
         #sidebar h3 {
-            font-size: 20px;
-            text-align: center;
+            font-size: 18px;
         }
-
-        #sidebar ul {
+        #winnersList {
             list-style: none;
             padding: 0;
         }
-
-        #sidebar ul li {
-            margin: 10px 0;
+        #winnersList li {
+            padding: 5px 0;
             font-size: 16px;
         }
-
         .user-avatar {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             margin-left: 10px;
         }
-
-        /* Bottom Styling */
-        #prizeImage img {
-            width: 150px;
+        #prize {
             margin-top: 20px;
-        }
-
-        /* Prize Text on Wheel */
-        .wheel-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 12px;
+            font-size: 20px;
             font-weight: bold;
-            color: white;
         }
-
+        #prizeImage img {
+            margin-top: 10px;
+            width: 100px;
+        }
         .wheel-text img {
-            width: 30px;
-            margin-left: 5px;
-        }
-
-        /* Mobile Styling */
-        @media (max-width: 768px) {
-            #sidebar {
-                display: none; /* Hide sidebar on mobile */
-            }
-
-            #winnersSection {
-                margin-top: 50px;
-            }
+            width: 20px;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-
-    <!-- Top Menu -->
-    <div id="topMenu">
-        <a href="#">الرئيسية</a>
-        <a href="#">الألعاب</a>
-        <a href="#">اتصل بنا</a>
-        <a href="#">الجوائز</a>
-    </div>
-
-    <!-- Moving Text -->
-    <div id="movingText">
-        <span>🎉 الجوائز: </span>
-        <span>5000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar" width="30"> | </span>
-        <span>1000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar" width="30"> | </span>
-        <span>750000 د.ع <img src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar" width="30"> | </span>
-        <span>500000 د.ع <img src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar" width="30"> | </span>
-        <span>سفرة مجانية الى تركيا <img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey" width="30"> | </span>
-        <span>iPhone 16 Pro Max <img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max" width="30"> | </span>
-        <span>Samsung S24 Ultra <img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra" width="30"> | </span>
-        <span>لا شيء <img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="No Prize" width="30"> </span>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-        <h1>إدور و اربح!</h1>
-
-        <!-- Spin Wheel -->
+    <div id="container">
         <div id="wheel">
-            <div class="pointer"></div>
-            <div class="wheel-text" style="top: 12%;">5000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar" width="30"></div>
-            <div class="wheel-text" style="top: 25%;">1000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar" width="30"></div>
-            <div class="wheel-text" style="top: 37%;">750000 د.ع <img src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar" width="30"></div>
-            <div class="wheel-text" style="top: 50%;">500000 د.ع <img src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar" width="30"></div>
-            <div class="wheel-text" style="top: 62%;">سفرة مجانية الى تركيا <img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey" width="30"></div>
-            <div class="wheel-text" style="top: 75%;">iPhone 16 Pro Max <img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max" width="30"></div>
-            <div class="wheel-text" style="top: 87%;">Samsung S24 Ultra <img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra" width="30"></div>
-            <div class="wheel-text" style="top: 100%;">لا شيء <img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="No Prize" width="30"></div>
+            <!-- Prize Text on Wheel -->
+            <div class="wheel-text" style="top: 0%;">5000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar"></div>
+            <div class="wheel-text" style="top: 12.5%;">1000000 د.ع <img src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar"></div>
+            <div class="wheel-text" style="top: 25%;">750000 د.ع <img src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar"></div>
+            <div class="wheel-text" style="top: 37.5%;">500000 د.ع <img src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar"></div>
+            <div class="wheel-text" style="top: 50%;">سفرة مجانية الى تركيا <img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey"></div>
+            <div class="wheel-text" style="top: 62.5%;">iPhone 16 Pro Max <img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max"></div>
+            <div class="wheel-text" style="top: 75%;">Samsung S24 Ultra <img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra"></div>
+            <div class="wheel-text" style="top: 87.5%;">لا شيء <img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="No Prize"></div>
         </div>
-
-        <!-- Spin Button -->
+        <div id="pointer"></div>
         <button id="spinButton">إبدأ الدوران</button>
 
-        <div id="prize" class="prize"></div>
+        <div id="prize"></div>
         <div id="prizeImage"></div>
     </div>
 
-    <!-- Sidebar (Winners List) -->
     <div id="sidebar">
         <h3>الذين فازوا الآن</h3>
         <ul id="winnersList">
@@ -238,35 +129,29 @@
     </div>
 
     <script>
-        // Prize Text and Prize Images List
         const comments = [
             { text: 'حسن فاز! 🏆', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
             { text: 'سارة فازت! 🎉', avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
             { text: 'محمد فاز! 🤩', avatar: 'https://randomuser.me/api/portraits/men/2.jpg' },
             { text: 'ميساء فازت بالجائزة الكبرى! 🏆', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
             { text: 'علي فاز! 💥', avatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
-            // Add more comments if necessary
+            // Add more comments as needed
         ];
 
-        // Disable Double Spin
         let canSpin = true;
 
         // Generate random winner and add to the winners list under the wheel
         function addWinner() {
-            if (canSpin) {
-                const randomComment = comments[Math.floor(Math.random() * comments.length)];
-                const winnerText = `${randomComment.text} <img src="${randomComment.avatar}" class="user-avatar" alt="Avatar">`;
-                const winnerItem = document.createElement('li');
-                winnerItem.innerHTML = winnerText;
-                document.getElementById('winnersList').prepend(winnerItem);
+            const randomComment = comments[Math.floor(Math.random() * comments.length)];
+            const winnerText = `${randomComment.text} <img src="${randomComment.avatar}" class="user-avatar" alt="Avatar">`;
+            const winnerItem = document.createElement('li');
+            winnerItem.innerHTML = winnerText;
+            document.getElementById('winnersList').prepend(winnerItem);
 
-                // Ensure only 20 winners are displayed at all times
-                const winnersList = document.getElementById('winnersList');
-                if (winnersList.children.length > 20) {
-                    winnersList.removeChild(winnersList.lastChild);
-                }
-
-                canSpin = false;
+            // Ensure only 20 winners are displayed at all times
+            const winnersList = document.getElementById('winnersList');
+            if (winnersList.children.length > 20) {
+                winnersList.removeChild(winnersList.lastChild);
             }
         }
 
@@ -298,35 +183,50 @@
             wheel.style.transform = `rotate(${deg}deg)`;
 
             setTimeout(() => {
-                // Show prize
+                // Show prize after spin
                 const prize = generateRandomPrize();
-                prizeDisplay.innerHTML = `لقد فزت بـ: ${prize}`;
-
+                prizeDisplay.innerHTML = `لقد فزت: ${prize}`;
+                
                 let prizeImg = '';
-                if (prize.includes("د.ع")) {
-                    prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="Prize Image">`;
-                } else if (prize === "سفرة مجانية الى تركيا") {
-                    prizeImg = `<img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Prize Image">`;
-                } else if (prize === "iPhone 16 Pro Max") {
-                    prizeImg = `<img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="Prize Image">`;
-                } else if (prize === "Samsung S24 Ultra") {
-                    prizeImg = `<img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Prize Image">`;
-                } else {
-                    prizeImg = `<img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D9%8
-                    prizeImg = `<img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="Prize Image">`;
+                switch (prize) {
+                    case '5000000 د.ع':
+                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourmid/pngtree-50-iraqi-dinar-stack-png-image_4562534.png" alt="5000000 Dinar">`;
+                        break;
+                    case '1000000 د.ع':
+                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220504/ourlarge/pngtree-25000-iraqi-dinar-stack-png-image_4562515.png" alt="1000000 Dinar">`;
+                        break;
+                    case '750000 د.ع':
+                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220918/original/pngtree-10000-iraqi-dianr-stacks-png-image_8622596.png" alt="750000 Dinar">`;
+                        break;
+                    case '500000 د.ع':
+                        prizeImg = `<img src="https://png.pngtree.com/png-clipart/20220917/ourmid/pngtree-5000-iraqi-dinar-stack-png-image_6199017.png" alt="500000 Dinar">`;
+                        break;
+                    case 'سفرة مجانية الى تركيا':
+                        prizeImg = `<img src="https://www.pngitem.com/pimgs/m/50-509936_turkish-airlines-aircraft-png-transparent-png.png" alt="Trip to Turkey">`;
+                        break;
+                    case 'iPhone 16 Pro Max':
+                        prizeImg = `<img src="https://directunlocks.com/devices/compressed/iphone-16-pro.png" alt="iPhone 16 Pro Max">`;
+                        break;
+                    case 'Samsung S24 Ultra':
+                        prizeImg = `<img src="https://d3n91k3iwhucwl.cloudfront.net/media/sm-s928_galaxys24ultra_devicebackl30_titaniumgray_231106.png" alt="Samsung S24 Ultra">`;
+                        break;
+                    default:
+                        prizeImg = `<img src="https://deva.cimanow.online/wp-content/uploads/2021/02/%D9%85%D8%B3%D9%84%D8%B3-%D9%84%D8%A7-%D8%B4%D9%89-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D9%84%D9%88%D8%AC%D9%88.png" alt="No Prize">`;
+                        break;
                 }
                 prizeImage.innerHTML = prizeImg;
-                addWinner(); // Add winner to the list every time the wheel stops spinning
 
-                // Re-enable spinning after 5 seconds to prevent double-spin
+                // Re-enable spinning after the prize display
                 setTimeout(() => {
                     canSpin = true;
-                }, 5000);
-            }, 4000); // Prize is shown after the wheel finishes spinning
+                }, 5000); // 5 seconds delay before re-enabling spin
+            }, 4000); // Wait for the wheel to finish spinning
         });
 
-        // Set auto-generation of winners every second
-        setInterval(addWinner, 1000); // Add a winner every 1 second
+        // Generate initial winners when the site loads
+        for (let i = 0; i < 20; i++) {
+            addWinner();
+        }
 
     </script>
 </body>
