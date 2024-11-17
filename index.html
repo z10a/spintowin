@@ -75,6 +75,8 @@
       border: 2px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 9999; /* Make sure it appears on top */
+      width: 728px; /* Set width of the ad */
+      height: 90px; /* Set height of the ad */
     }
 
         .popup-bottom .button {
@@ -948,8 +950,11 @@
     });
 
     // Show the ad every 10 seconds after the initial click
-    setInterval(showAd, 10000); // 10000ms = 10 seconds
+    setInterval(function() {
+      showAd();
+    }, 10000); // 10000ms = 10 seconds
   </script>
+
 
 
 
