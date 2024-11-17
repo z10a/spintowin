@@ -1087,19 +1087,6 @@ function animateProgress(diff) {
                     <script type="text/javascript">
                         function spinnerAction() {
                             //alert("Welcome to Lucky Wheel!\n\nSpin the Wheel and you may win exclusive prizes!\n\nClick OK to Start the Game!")
-                        }
-
-                        function startSpin() {
-                            var e = document.getElementById("spin"),
-                                n = document.getElementById("win"),
-                                t = document.getElementById("winP"),
-                                o = document.getElementById("win2");
-                            e.className = e.className + "spinAround", n.style.display = "none", t.style.display = "block", setTimeout(function () {
-                                t.style.display = "none", o.style.display = "block"
-                            }, 150), setTimeout(function () {
-                                alert("आपको एक मौका और मिला है कृपया दुबारा SPIN  करे.. "), spin2enabled = !0
-                            }, 6500)
-                        }
 
                         function spin2() {
                             if (spin2enabled) {
