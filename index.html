@@ -1001,8 +1001,8 @@
                                 cl1++;
                                 var widh = cl1 * 10;
                                 var elem = document.getElementById("progress-bar");
-                                elem.style.width = widh + `%`;
-                                //document.getElementById("progress-bar").style.width =  +`%`;
+                                elem.style.width = widh + %;
+                                //document.getElementById("progress-bar").style.width =  +%;
                                 if (cl1 > max_val - 1) {
                                     $('#final').show();
                                     var ck = document.getElementById("final");
@@ -1087,6 +1087,7 @@ function animateProgress(diff) {
                     <script type="text/javascript">
                         function spinnerAction() {
                             //alert("Welcome to Lucky Wheel!\n\nSpin the Wheel and you may win exclusive prizes!\n\nClick OK to Start the Game!")
+                        }
 
                         function startSpin() {
                             var e = document.getElementById("spin"),
@@ -1099,7 +1100,7 @@ function animateProgress(diff) {
                                 alert("आपको एक मौका और मिला है कृपया दुबारा SPIN  करे.. "), spin2enabled = !0
                             }, 6500)
                         }
-                            
+
                         function spin2() {
                             if (spin2enabled) {
                                 var e = document.getElementById("spin"),
