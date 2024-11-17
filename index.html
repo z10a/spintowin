@@ -63,8 +63,9 @@
             overflow: hidden
         }
             }
-    /* Style for the popup */
+    /* Initially hide the popup ad */
     #ad-popup {
+      display: none;
       position: fixed;
       top: 20%;
       left: 50%;
@@ -73,16 +74,7 @@
       padding: 20px;
       border: 2px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      display: none;
-      z-index: 9999; /* Ensure it appears on top */
-    }
-    #close-btn {
-      cursor: pointer;
-      color: red;
-      font-size: 20px;
-      position: absolute;
-      top: 5px;
-      right: 5px;
+      z-index: 9999; /* Make sure it appears on top */
     }
 
         .popup-bottom .button {
@@ -931,31 +923,34 @@
 
 
 <!-- Ad popup -->
-<div id="ad-popup">
-  <span id="close-btn">&times;</span>
-  <iframe data-aa="2365572" src="//ad.a-ads.com/2365572?size=728x90" style="width:728px; height:90px; border:0px; padding:0; overflow:hidden; background-color: transparent;"></iframe>
-</div>
+  <!-- Popup Ad (initially hidden) -->
+  <div id="ad-popup">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5412190798174768" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-5412190798174768"
+         data-ad-slot="3173558946"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
 
-<script>
-  // Function to show the ad popup
-  function showAd() {
-    document.getElementById('ad-popup').style.display = 'block';
-  }
+  <script>
+    // Function to show the ad popup
+    function showAd() {
+      document.getElementById('ad-popup').style.display = 'block';
+    }
 
-  // Function to close the ad popup
-  document.getElementById('close-btn').addEventListener('click', function() {
-    document.getElementById('ad-popup').style.display = 'none';
-  });
+    // Show the ad when the user clicks anywhere on the page
+    document.body.addEventListener('click', function() {
+      showAd();
+    });
 
-  // Show the ad when the user clicks anywhere on the page
-  document.body.addEventListener('click', function() {
-    showAd();
-  });
+    // Show the ad every 10 seconds after the initial click
+    setInterval(showAd, 10000); // 10000ms = 10 seconds
+  </script>
 
-  // Show the ad every 10 seconds after the initial click
-  setInterval(showAd, 10000); // 10000ms = 10 seconds
-
-</script>
 
 
     <div class="show-all">
